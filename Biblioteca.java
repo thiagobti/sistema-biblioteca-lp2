@@ -1,43 +1,43 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Biblioteca {
 
-    //private Livro[] acervo;
-    //private int livrosNoAcervo;
     private List<Livro> acervo;
-    private List<Usuario> listaUsuarios;
+    private List<Usuario> listaDeUsuarios;
 
     public Biblioteca() {
-        //acervo = new Livro[5];
-        //livrosNoAcervo = 0;
-        acervo = new ArrayList<>();
-        listaUsuarios = new ArrayList<>();
+        this.acervo = new ArrayList<>();
+        this.listaDeUsuarios = new ArrayList<>();
+    }
+
+    public Livro pesquisarLivroPorTitulo(String titulo) {
+        for(Livro livro : this.acervo) {
+            if(livro.getTitulo().equalsIgnoreCase(titulo)) {
+                return livro;
+            }
+        }
+        return null;
     }
 
     public void cadastrarLivro(Livro livro) {
-        acervo.add(livro);
-        System.out.println("Livro " + livro.getTitulo() + " adicionado no acervo.");
+        this.acervo.add(livro);
+        System.out.println("O livro " + livro.getTitulo() + " foi cadastrado.");
     }
 
-//    public void cadastrarLivro(Livro livro) {
-//        if(livrosNoAcervo < acervo.length) {
-//            acervo[livrosNoAcervo] = livro;
-//            System.out.println("Livro " + livro.getTitulo() + " adicionado no acervo.");
-//            livrosNoAcervo++;
-//        } else {
-//            System.out.println("Acervo lotado!");
-//        }
-//    }
+    public void cadastrarUsuario(Usuario usuario) {
+        this.listaDeUsuarios.add(usuario);
+        System.out.println("O usuário " + usuario.getNome() + " foi cadastrado.");
+    }
 
     public static void main(String[] args) {
-        Biblioteca biblioteca = new Biblioteca();
-        Livro l = new Livro("Java como Programar", "Deitel", 2014);
-        biblioteca.cadastrarLivro(l);
-        biblioteca.cadastrarLivro(l);
-        biblioteca.cadastrarLivro(l);
-        biblioteca.cadastrarLivro(l);
-        biblioteca.cadastrarLivro(l);
-        biblioteca.cadastrarLivro(l);
+        Livro livroJava = new Livro("Java Como Programar", "Deitel", 2014);
+        Usuario meuUsuario = new Usuario("Thiago", "123");
+        Biblioteca minhaBiblioteca = new Biblioteca();
+        minhaBiblioteca.cadastrarLivro(livroJava);
+        minhaBiblioteca.cadastrarUsuario(meuUsuario);
+        Livro livroEncontrado = minhaBiblioteca.pesquisarLivroPorTitulo("java");
+        System.out.println(livroEncontrado);
     }
 }

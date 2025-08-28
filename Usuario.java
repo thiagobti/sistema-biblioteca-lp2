@@ -6,27 +6,27 @@ public class Usuario {
 
     public Usuario(String nome, String id) {
         setNome(nome);
-        this.id = id;
+        setId(id);
     }
 
     public String getNome() {
         return nome;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setNome(String nome) {
         if(nome.isEmpty()) {
-            System.out.println("Erro: o nome não pode ser vazio.");
+            System.out.println("Erro: valor inválido.");
         } else {
             this.nome = nome;
         }
     }
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
-        if(this.id.length() > 11) {
+        if(id.isEmpty()) {
             System.out.println("Erro: valor inválido.");
         } else {
             this.id = id;
