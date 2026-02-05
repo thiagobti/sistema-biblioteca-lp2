@@ -1,3 +1,5 @@
+package src;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -8,8 +10,6 @@ public class Biblioteca {
     private List<ItemDoAcervo> acervo;
     private List<Usuario> listaDeUsuarios;
     private List<Emprestimo> registrosDeEmprestimos;
-    private static final int PRAZO_EMPRESTIMO_DIAS = 14;
-    private static final double VALOR_MULTA_DIA = 0.75;
 
     public Biblioteca() {
         this.acervo = new ArrayList<>();
@@ -29,15 +29,15 @@ public class Biblioteca {
             System.out.println("Erro: item não cadastrado.");
             return;
         }
-        // 2 - Validar a regra de negocio (verificar se o livro está disponível)
+        // 2 - Validar a regra de negocio (verificar se o item está disponível)
         if(itemDoEmprestimo.getStatus() == StatusLivro.EMPRESTADO) {
-            System.out.println("Erro: livro já emprestrado.");
+            System.out.println("Erro: item já emprestrado.");
             return;
         }
         // 3 - Realizar o registro (Criar objeto do tipo Emprestimo e adiciona-lo ao registroDeEmprestimos)
         itemDoEmprestimo.setStatus(StatusLivro.EMPRESTADO);
         LocalDate dataEmprestimo = LocalDate.now();
-        LocalDate dataDevolucaoPrevista = dataEmprestimo.plusDays(PRAZO_EMPRESTIMO_DIAS);
+        LocalDate dataDevolucaoPrevista = dataEmprestimo.plusDays(itemDoEmprestimo.getPrazo());
         Emprestimo emprestimo = new Emprestimo(itemDoEmprestimo, usuarioDoEmprestimo, dataEmprestimo, dataDevolucaoPrevista);
         registrosDeEmprestimos.add(emprestimo);
         System.out.println("Emprestimo realizado com sucesso!");
@@ -73,12 +73,12 @@ public class Biblioteca {
         long dias = ChronoUnit.DAYS.between(emprestimo.getDataDevolucaoPrevista(), hoje);
 
         if(dias > 0) {
-            double multa = dias * VALOR_MULTA_DIA;
+            double multa = dias * item.getValorMultaPorDia();
             System.out.println("Item devolvido. Você precisa pagar uma multa de R$" + multa);
         } else {
             System.out.println("Item devolvido.");
         }
-        emprestimo.getItem()    .setStatus(StatusLivro.DISPONIVEL);
+        emprestimo.getItem().setStatus(StatusLivro.DISPONIVEL);
         emprestimo.setDataDevolucaoReal(hoje);
     }
 
@@ -105,7 +105,7 @@ public class Biblioteca {
 //    }
 
     public void listarAcervo() {
-        System.out.println("Itens no Acervo");
+        System.out.println("Items no Acervo");
         for (var item : acervo) {
             System.out.println(item);
         }
@@ -126,19 +126,22 @@ public class Biblioteca {
         Livro livroMemoria = new Livro("Memórias Póstumas de Brás Cubas", "Machado de Assis", 1881);
         Usuario meuUsuario = new Usuario("Thiago", "123");
         Biblioteca minhaBiblioteca = new Biblioteca();
+
+        Revista revistaVeja = new Revista("Veja - Abril", 2015, 1);
+        minhaBiblioteca.cadastrarItem(revistaVeja);
         minhaBiblioteca.cadastrarItem(livroJavaComoProgramar);
         minhaBiblioteca.cadastrarItem(livroMemoria);
         minhaBiblioteca.cadastrarUsuario(meuUsuario);
         minhaBiblioteca.listarAcervo();
-        minhaBiblioteca.realizarEmprestimo("123", "Java Como Programar");
+        minhaBiblioteca.realizarEmprestimo("123", "Veja - Abril");
         minhaBiblioteca.listarAcervo();
         minhaBiblioteca.registrosDeEmprestimos.get(0).setDataDevolucaoPrevista(LocalDate.of(2025, 8, 31));
-        minhaBiblioteca.realizarDevolucao("Java Como Programar");
+        minhaBiblioteca.realizarDevolucao("Veja - Abril");
         minhaBiblioteca.listarAcervo();
         System.out.println();
-        //Adicionando Revista
-        Revista revistaVeja = new Revista("Veja - Abril", 2015, 1);
-        minhaBiblioteca.cadastrarItem(revistaVeja);
-        minhaBiblioteca.listarAcervo();
+
+
+        System.out.println(livroMemoria.getPrazo());
+        System.out.println(revistaVeja.getPrazo());
     }
 }
