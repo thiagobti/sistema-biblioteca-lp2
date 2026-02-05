@@ -1,3 +1,4 @@
+package src;
 
 public class Livro extends ItemDoAcervo {
     private String autor;
@@ -20,7 +21,18 @@ public class Livro extends ItemDoAcervo {
     }
 
     @Override
+    public int getPrazo() {
+        return 14;
+    }
+
+    @Override
+    public double getValorMultaPorDia() {
+        return 0.75;
+    }
+
+    @Override
     public String toString() {
         return "Livro '" + getTitulo() + "', de " + autor + " (" + getAno() + ") - Status: " + getStatus();
     }
+
 }
