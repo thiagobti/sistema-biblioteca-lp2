@@ -1,3 +1,5 @@
+package src;
+
 public class ItemDoAcervo {
     private String titulo;
     private int ano;
@@ -6,7 +8,7 @@ public class ItemDoAcervo {
     public ItemDoAcervo(String titulo, int ano) {
         setTitulo(titulo);
         setAno(ano);
-        status = StatusLivro.DISPONIVEL;
+        setStatus(StatusLivro.DISPONIVEL);
     }
 
     public int getAno() {
@@ -38,8 +40,15 @@ public class ItemDoAcervo {
         return status;
     }
 
+    public int getPrazo() {
+        return 7;
+    }
+
+    public double getValorMultaPorDia() {
+        return 0.5;
+    }
+
     public void setStatus(StatusLivro status) {
         this.status = status;
     }
-
 }
