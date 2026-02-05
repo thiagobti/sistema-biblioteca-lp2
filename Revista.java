@@ -1,10 +1,11 @@
+package src;
 
 public class Revista extends ItemDoAcervo {
     private int edicao;
 
     public Revista(String titulo, int ano, int edicao) {
         super(titulo, ano);
-        this.edicao = edicao;
+        setEdicao(edicao);
     }
 
     public int getEdicao() {
@@ -16,7 +17,17 @@ public class Revista extends ItemDoAcervo {
     }
 
     @Override
+    public int getPrazo() {
+        return 10;
+    }
+
+    @Override
+    public double getValorMultaPorDia() {
+        return 1.0;
+    }
+
+    @Override
     public String toString() {
-        return "Revista '" + getTitulo() + "' (" + getAno() + ") " + edicao + ". Edição - Status: " + getStatus();
+        return "Revista '" + getTitulo() + "' " + edicao + ". Edição (" + getAno() + ") - Status: " + getStatus();
     }
 }
